@@ -8,6 +8,10 @@ const ChatProvider = ({ children }) => {
   console.log(socket);
   const [chat, setChat] = useLocalStorage('chat', []);
 
+  const handleClearMessages = () => {
+    setChat([]);
+  };
+
   const handleSendMessage = (message) => {
     setChat((prevState) => [...prevState, message]);
     socket && socket.emit('send-message', message);
@@ -24,7 +28,7 @@ const ChatProvider = ({ children }) => {
       });
   }, [socket]);
 
-  const value = { chat, setChat, handleSendMessage };
+  const value = { chat, setChat, handleSendMessage, handleClearMessages };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
 };

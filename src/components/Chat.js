@@ -7,7 +7,9 @@ import { Button, Form, InputGroup } from 'react-bootstrap';
 const Chat = ({ userId }) => {
   const [message, setMessage] = useState('');
   const [disabled, setDisabled] = useState(true);
-  const { chat, handleSendMessage } = useContext(ChatContext);
+  const { chat, handleSendMessage, handleClearMessages } = useContext(
+    ChatContext
+  );
   const { recipients } = useContext(RecipientContext);
   const ChatListComponent = chat.map((msg, i) => (
     <div
@@ -38,6 +40,7 @@ const Chat = ({ userId }) => {
     if (recipients.length > 0) {
       const payload = { author: userId, body: message, recipients };
       handleSendMessage(payload);
+      setMessage('');
     }
   };
 
@@ -52,6 +55,11 @@ const Chat = ({ userId }) => {
       </div>
       <Form style={{ marginTop: '1rem' }} onSubmit={handleSubmit}>
         <InputGroup>
+          <InputGroup.Prepend>
+            <Button onClick={handleClearMessages} variant="danger">
+              Clear Messages
+            </Button>
+          </InputGroup.Prepend>
           <Form.Control
             disabled={disabled}
             onChange={({ target: { value } }) => setMessage(value)}
