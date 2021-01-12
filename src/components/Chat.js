@@ -13,19 +13,23 @@ const Chat = ({ userId }) => {
     <div
       key={i}
       className={` bg-primary mt-3 ${
-        msg.author === userId ? 'align-self-end' : 'align-self-start'
+        msg.author === userId
+          ? 'align-self-end bg-primary'
+          : 'align-self-start bg-success'
       }`}
       style={{ borderRadius: '10px' }}
     >
       <p
-        className="m-0 text-light p-3 "
+        className="m-0 text-light pt-3 px-3"
         style={{
           wordBreak: 'break-word',
         }}
       >
         {msg.body}
       </p>
-      <p className="text-light p-3 m-0">{msg.author}</p>
+      <p className="text-light px-3 pb-1 m-0">
+        <small>{msg.author}</small>
+      </p>
     </div>
   ));
 
@@ -43,13 +47,10 @@ const Chat = ({ userId }) => {
 
   return (
     <>
-      <div
-        className="d-flex flex-column "
-        style={{ height: '75vh', overflow: 'auto' }}
-      >
+      <div className="d-flex flex-column " style={{ overflow: 'auto' }}>
         {ChatListComponent}
       </div>
-      <Form onSubmit={handleSubmit}>
+      <Form style={{ marginTop: '1rem' }} onSubmit={handleSubmit}>
         <InputGroup>
           <Form.Control
             disabled={disabled}

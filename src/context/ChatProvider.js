@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import useLocalStorage from '../hooks/useLocalStorage';
+import { SocketContext } from './SocketProvider';
 
 const ChatContext = React.createContext();
 const ChatProvider = ({ children }) => {
-  const [chat, setChat] = useLocalStorage('chat', [
-    {
-      id: 0,
-      body:
-        'texttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttexttext',
-      author: 'author',
-      recipients: [],
-    },
-    { id: 2, body: 'text', author: 'author', recipients: [] },
-    { id: 3, body: 'text', author: 'author', recipients: [] },
-  ]);
+  const socket = useContext(SocketContext);
+  console.log(socket);
+  const [chat, setChat] = useLocalStorage('chat', []);
 
   const handleSendMessage = (message) => {
     setChat((prevState) => [...prevState, message]);
+    socket && socket.emit('send-message', message);
   };
+
+  const handleRecieveMessage = (message) => {
+    setChat((prevState) => [...prevState, message]);
+  };
+
+  useEffect(() => {
+    socket &&
+      socket.on('message-recieve', (message) => {
+        handleRecieveMessage(message);
+      });
+  }, [socket]);
 
   const value = { chat, setChat, handleSendMessage };
 

@@ -14,17 +14,22 @@ const SideBar = ({ userId }) => {
       >
         X
       </Button>
-      <span className="p-1 bg-light w-100 rounded-left text-dark">{r}</span>
+      <span
+        className="p-1 bg-light w-100 rounded-left text-dark"
+        style={{ wordBreak: 'break-word' }}
+      >
+        {r}
+      </span>
     </div>
   ));
 
   return (
-    <>
-      <div style={{ height: '90vh', overflow: 'auto', paddingTop: '23px' }}>
+    <div className="min-vh-100 d-flex flex-column justify-content-between border-right p-2">
+      <div style={{ overflow: 'auto', paddingTop: '1rem' }}>
         {recipientComponentList}
       </div>
       <p className="text-muted">{`User ID: ${userId}`}</p>
-    </>
+    </div>
   );
 };
 

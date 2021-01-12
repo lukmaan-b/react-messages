@@ -1,20 +1,18 @@
 import React, { useContext, useState } from 'react';
 
-import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 import { RecipientContext } from '../context/RecipientProvider';
 
-const RecipientInput = () => {
+const RecipientInput = ({ userId }) => {
   const [input, setInput] = useState('');
 
   const { handleAddRecipient } = useContext(RecipientContext);
 
-  console.log(input);
   return (
     <Form
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(input);
-        handleAddRecipient(input);
+        if (input !== userId) handleAddRecipient(input);
       }}
     >
       <Form.Group>
