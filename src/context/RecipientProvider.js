@@ -3,17 +3,22 @@ import useLocalStorage from '../hooks/useLocalStorage';
 
 const RecipientContext = React.createContext();
 const RecipientProvider = ({ children }) => {
-  const [recipients, setRecipients] = useLocalStorage('recipients', [
-    { id: 0 },
-    { id: 2 },
-    { id: 3 },
-  ]);
+  const [recipients, setRecipients] = useLocalStorage('recipients', []);
 
   const handleDeleteRecipient = (id) => {
-    setRecipients((prevState) => prevState.filter((r) => r.id !== id));
+    setRecipients((prevState) => prevState.filter((r) => r !== id));
   };
 
-  const value = { recipients, setRecipients, handleDeleteRecipient };
+  const handleAddRecipient = (id) => {
+    setRecipients((prevState) => [...prevState, id]);
+  };
+
+  const value = {
+    recipients,
+    setRecipients,
+    handleDeleteRecipient,
+    handleAddRecipient,
+  };
 
   return (
     <RecipientContext.Provider value={value}>
